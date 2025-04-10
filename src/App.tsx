@@ -1,10 +1,21 @@
+import MainRoutes from "./routes/MainRoutes";
+
 function App() {
   return (
     <>
-      <div>
-        <p className="text-2xl text-orange-500 font-bold underline text-center">
-          hello world
-        </p>
+      <div className="min-h-screen  flex flex-col justify-between relative text-gray-900 font-serif">
+        <section>
+          <header>
+            <nav></nav>
+          </header>
+
+          <main>
+            <MainRoutes />
+          </main>
+        </section>
+        <section>
+          <footer></footer>
+        </section>
       </div>
     </>
   );
