@@ -4,6 +4,8 @@ import logo from "../../assets/SARETO_DENTAL_LOGO.webp";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TLoginReq } from "../../types/authTypes";
 import FormErrorsComponent from "../../components/FormErrorsComponent";
+import { useMutation } from "@tanstack/react-query";
+import LoadingComponent from "../../components/LoadingComponent";
 const Login = () => {
   const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false);
 
@@ -16,17 +18,20 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
     trigger,
-  } = useForm<TLoginReq>({
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
+    reset,
+  } = useForm<TLoginReq>();
 
-  const onSubmit: SubmitHandler<TLoginReq> = (loginReq) => {
-    console.log(loginReq);
+  const onSubmit: SubmitHandler<TLoginReq> = async (loginReq) => {
+    await loginMutation(loginReq);
   };
-
+  const handleLogin = async (loginReq: TLoginReq) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(loginReq);
+    reset();
+  };
+  const { mutateAsync: loginMutation, isPending } = useMutation({
+    mutationFn: handleLogin,
+  });
   useEffect(() => {
     async () => {
       await trigger();
@@ -34,7 +39,14 @@ const Login = () => {
   }, [trigger]);
   return (
     <>
-      <div className="bg-blue-200 min-h-screen flex justify-center items-center">
+      <div className="bg-blue-200 min-h-screen flex justify-center items-center relative">
+        {isPending ? (
+          <div className="absolute top-0 bottom-0 w-full flex  justify-center items-center bg-blue-200 z-10">
+            <LoadingComponent />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="bg-gray-50 rounded-md shadow shadow-gray-700 px-4  py-10  w-[280px] grid gap-4 md:w-[400px]">
           <section>
             <figure className=" w-full">
