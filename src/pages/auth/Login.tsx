@@ -4,12 +4,12 @@ import logo from "../../assets/SARETO_DENTAL_LOGO.webp";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TLoginReq, TUser } from "../../types/authTypes";
 import FormErrorsComponent from "../../components/FormErrorsComponent";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import LoadingComponent from "../../components/LoadingComponent";
 import axios from "axios";
 import { BASE_API } from "../../utils/Constants";
 import { CustomAxiosError } from "../../types/commonTypes";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateAccessToken } from "../../state/auth/authSlice";
 const Login = () => {
@@ -36,9 +36,10 @@ const Login = () => {
       })
       .catch((e: CustomAxiosError) => {
         if (e.response)
-          toast.error(e.response?.data.message, { removeDelay: 300 });
+          toast.error(e.response.data.message,{autoClose:false})
       });
   };
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -51,6 +52,7 @@ const Login = () => {
     onSuccess: (data) => {
       console.log(data);
       tokenDispatcher(updateAccessToken(data.accessToken));
+      queryClient.setQueryData(["user"], data);
     },
   });
   useEffect(() => {
