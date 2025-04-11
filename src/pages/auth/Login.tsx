@@ -2,16 +2,38 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/SARETO_DENTAL_LOGO.webp";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TLoginReq } from "../../types/authTypes";
+import { TLoginReq, TUser } from "../../types/authTypes";
 import FormErrorsComponent from "../../components/FormErrorsComponent";
 import { useMutation } from "@tanstack/react-query";
 import LoadingComponent from "../../components/LoadingComponent";
+import axios from "axios";
+import { BASE_API } from "../../utils/Constants";
+import { CustomAxiosError } from "../../types/commonTypes";
+import toast from "react-hot-toast";
 const Login = () => {
   const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false);
 
   const handlePasswordVisiblity = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPasswordVisiblity(() => !isPasswordVisible);
+  };
+
+  const onSubmit: SubmitHandler<TLoginReq> = async (loginReq) => {
+    await loginMutation(loginReq);
+  };
+  const handleLogin = async (loginReq: TLoginReq): Promise<TUser> => {
+    return axios
+      .post(`${BASE_API}/auth/login`, {
+        username: loginReq.username,
+        password: loginReq.password,
+      })
+      .then((res) => {
+        reset();
+        return res.data;
+      })
+      .catch((e: CustomAxiosError) => {
+        if (e.response) toast.error(e.response?.data.message,{removeDelay:300});
+      });
   };
   const {
     register,
@@ -20,17 +42,14 @@ const Login = () => {
     trigger,
     reset,
   } = useForm<TLoginReq>();
-
-  const onSubmit: SubmitHandler<TLoginReq> = async (loginReq) => {
-    await loginMutation(loginReq);
-  };
-  const handleLogin = async (loginReq: TLoginReq) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(loginReq);
-    reset();
-  };
   const { mutateAsync: loginMutation, isPending } = useMutation({
     mutationFn: handleLogin,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
   });
   useEffect(() => {
     async () => {
