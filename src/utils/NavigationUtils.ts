@@ -6,4 +6,7 @@ navigationData.set(ENavDataTitles.LOGIN_PAGE, {
   linkName: "Login",
   url: "/login",
 });
-
+navigationData.set(ENavDataTitles.DASHBOARD_PAGE, {
+  linkName: "Dashboard",
+  url: "/dashboard",
+});

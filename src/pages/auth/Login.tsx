@@ -9,10 +9,14 @@ import LoadingComponent from "../../components/LoadingComponent";
 import axios from "axios";
 import { BASE_API } from "../../utils/Constants";
 import { CustomAxiosError } from "../../types/commonTypes";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateAccessToken } from "../../state/auth/authSlice";
+import { useNavigate } from "react-router";
+import { navigationData } from "../../utils/NavigationUtils";
+import { ENavDataTitles } from "../../types/NavigationTypes";
 const Login = () => {
+  const navigate = useNavigate();
   const tokenDispatcher = useDispatch();
   const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false);
 
@@ -36,7 +40,7 @@ const Login = () => {
       })
       .catch((e: CustomAxiosError) => {
         if (e.response)
-          toast.error(e.response.data.message,{autoClose:false})
+          toast.error(e.response.data.message, { autoClose: false });
       });
   };
   const queryClient = useQueryClient();
@@ -50,9 +54,11 @@ const Login = () => {
   const { mutateAsync: loginMutation, isPending } = useMutation({
     mutationFn: handleLogin,
     onSuccess: (data) => {
-      console.log(data);
+ 
       tokenDispatcher(updateAccessToken(data.accessToken));
       queryClient.setQueryData(["user"], data);
+
+      navigate(navigationData.get(ENavDataTitles.DASHBOARD_PAGE)!!.url);
     },
   });
   useEffect(() => {
