@@ -15,6 +15,7 @@ import { updateAccessToken } from "../../state/auth/authSlice";
 import { useNavigate } from "react-router";
 import { navigationData } from "../../utils/NavigationUtils";
 import { ENavDataTitles } from "../../types/NavigationTypes";
+import { handleLogin } from "./authApi";
 const Login = () => {
   const navigate = useNavigate();
   const tokenDispatcher = useDispatch();
@@ -28,21 +29,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<TLoginReq> = async (loginReq) => {
     await loginMutation(loginReq);
   };
-  const handleLogin = async (loginReq: TLoginReq): Promise<TUser> => {
-    return axios
-      .post(`${BASE_API}/auth/login`, {
-        username: loginReq.username,
-        password: loginReq.password,
-      })
-      .then((res) => {
-        reset();
-        return res.data;
-      })
-      .catch((e: CustomAxiosError) => {
-        if (e.response)
-          toast.error(e.response.data.message, { autoClose: false });
-      });
-  };
+
   const queryClient = useQueryClient();
   const {
     register,
@@ -54,10 +41,10 @@ const Login = () => {
   const { mutateAsync: loginMutation, isPending } = useMutation({
     mutationFn: handleLogin,
     onSuccess: (data) => {
- 
+      // reset();
       tokenDispatcher(updateAccessToken(data.accessToken));
       queryClient.setQueryData(["user"], data);
-
+      reset();
       navigate(navigationData.get(ENavDataTitles.DASHBOARD_PAGE)!!.url);
     },
   });
