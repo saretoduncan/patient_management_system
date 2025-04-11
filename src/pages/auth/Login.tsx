@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/SARETO_DENTAL_LOGO.webp";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TLoginReq, TUser } from "../../types/authTypes";
+import { TLoginReq } from "../../types/authTypes";
 import FormErrorsComponent from "../../components/FormErrorsComponent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import LoadingComponent from "../../components/LoadingComponent";
-import axios from "axios";
-import { BASE_API } from "../../utils/Constants";
-import { CustomAxiosError } from "../../types/commonTypes";
-import { toast } from "react-toastify";
+
 import { useDispatch } from "react-redux";
 import { updateAccessToken } from "../../state/auth/authSlice";
 import { useNavigate } from "react-router";
@@ -18,36 +15,41 @@ import { ENavDataTitles } from "../../types/NavigationTypes";
 import { handleLogin } from "./authApi";
 const Login = () => {
   const navigate = useNavigate();
-  const tokenDispatcher = useDispatch();
-  const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false);
+  const tokenDispatcher = useDispatch(); //dispatcher from redux
+  const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false); //handle password visibility state
 
   const handlePasswordVisiblity = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPasswordVisiblity(() => !isPasswordVisible);
-  };
+  }; //handle password visibility method
 
   const onSubmit: SubmitHandler<TLoginReq> = async (loginReq) => {
     await loginMutation(loginReq);
-  };
+  }; //handle form submission
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient(); //access query client
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     trigger,
     reset,
-  } = useForm<TLoginReq>();
+  } = useForm<TLoginReq>(); //handle forms
+
   const { mutateAsync: loginMutation, isPending } = useMutation({
     mutationFn: handleLogin,
     onSuccess: (data) => {
-      // reset();
-      tokenDispatcher(updateAccessToken(data.accessToken));
+      const { accessToken, ...userData } = data;
+      tokenDispatcher(updateAccessToken(accessToken));
+
+      localStorage.setItem("user", JSON.stringify(userData));
       queryClient.setQueryData(["user"], data);
       reset();
       navigate(navigationData.get(ENavDataTitles.DASHBOARD_PAGE)!!.url);
     },
-  });
+  }); //handle login api
+
   useEffect(() => {
     async () => {
       await trigger();

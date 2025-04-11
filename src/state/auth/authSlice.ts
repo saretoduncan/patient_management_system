@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TUser } from "../../types/authTypes";
+import { TLoginResponse } from "../../types/authTypes";
 
 type TAuthState = {
   accessToken: string | null;
-  user: TUser | null;
+  user: TLoginResponse | null;
 };
 
 const initialAuthState: TAuthState = {
@@ -18,7 +18,7 @@ const accessTokenSlice = createSlice({
     updateAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
-    updateUser: (state, action: PayloadAction<TUser>) => {
+    updateUser: (state, action: PayloadAction<TLoginResponse>) => {
       state.user = action.payload;
     },
     logout: (state) => {
