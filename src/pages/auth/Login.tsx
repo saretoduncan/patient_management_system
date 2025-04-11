@@ -10,7 +10,10 @@ import axios from "axios";
 import { BASE_API } from "../../utils/Constants";
 import { CustomAxiosError } from "../../types/commonTypes";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { updateAccessToken } from "../../state/auth/authSlice";
 const Login = () => {
+  const tokenDispatcher = useDispatch();
   const [isPasswordVisible, setPasswordVisiblity] = useState<boolean>(false);
 
   const handlePasswordVisiblity = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,7 +35,8 @@ const Login = () => {
         return res.data;
       })
       .catch((e: CustomAxiosError) => {
-        if (e.response) toast.error(e.response?.data.message,{removeDelay:300});
+        if (e.response)
+          toast.error(e.response?.data.message, { removeDelay: 300 });
       });
   };
   const {
@@ -46,9 +50,7 @@ const Login = () => {
     mutationFn: handleLogin,
     onSuccess: (data) => {
       console.log(data);
-    },
-    onError: (e) => {
-      console.log(e);
+      tokenDispatcher(updateAccessToken(data.accessToken));
     },
   });
   useEffect(() => {
