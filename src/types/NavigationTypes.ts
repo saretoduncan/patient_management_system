@@ -4,6 +4,7 @@ export const ENavDataTitles = {
   USERS_PAGE: "usersPage",
   PROFILE_PAGE: "profilePage",
   APPOINTMENTS_PAGE: "appointmentPage",
+  PATIENTS_PAGE:"patientsPage"
 };
 export type TNavLinkTypes = {
   linkName: string;

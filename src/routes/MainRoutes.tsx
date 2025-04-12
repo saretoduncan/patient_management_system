@@ -6,6 +6,7 @@ import Dashboard from "../pages/dasboard";
 import Appointments from "../pages/appointments";
 import Users from "../pages/users";
 import Profile from "../pages/profile";
+import Patients from "../pages/patients";
 
 const MainRoutes = () => {
   return (
@@ -30,6 +31,10 @@ const MainRoutes = () => {
         <Route
           path={navigationData.get(ENavDataTitles.PROFILE_PAGE)?.url}
           element={<Profile />}
+        />
+          <Route
+          path={navigationData.get(ENavDataTitles.PATIENTS_PAGE)?.url}
+          element={<Patients />}
         />
       </Routes>
     </>

@@ -22,3 +22,7 @@ navigationData.set(ENavDataTitles.APPOINTMENTS_PAGE, {
   linkName: "Appointments",
   url: "/appointments",
 });
+navigationData.set(ENavDataTitles.PATIENTS_PAGE, {
+  linkName: "Patients",
+  url: "/patients",
+});
