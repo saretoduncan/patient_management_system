@@ -5,10 +5,14 @@ import LinkComponent from "./LinkComponent";
 import { FaCalendar, FaUsers } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { RiLogoutBoxFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { closeSideNav } from "../../state/navSlice";
 
 const SideNavBar = () => {
+  const navDispatch = useDispatch();
   const handleLogout = () => {
     console.log("logout clicked");
+    navDispatch(closeSideNav());
   };
   return (
     <div className="px-4 grid gap-2">
