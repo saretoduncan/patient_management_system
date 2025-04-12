@@ -25,13 +25,18 @@ const LinkComponent: React.FC<TLinkProps> = ({
     <>
       <Link
         to={toUrl}
-        className={`flex space-x-4  font-bold ${
-          toUrl === location ? "bg-blue-400  text-gray-200" : " text-gray-700"
+        className={`flex space-x-4 lg:space-x-2  font-bold ${
+          toUrl === location
+            ? "bg-blue-400  text-gray-200 "
+            : " text-gray-700"
         }  rounded p-2  transform  ease-in-out duration-500  ${classes}`}
         onClick={handleCloseSideNav}
       >
-        <LinkIcon className="self-center text-2xl  " />
-        <span>{linkName}</span>
+        <span className=" text-2xl lg:text-3xl  ">
+          <LinkIcon />
+        </span>
+
+        <span className="lg:flex lg:items-end">{linkName}</span>
       </Link>
     </>
   );
