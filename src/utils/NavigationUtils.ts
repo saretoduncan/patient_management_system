@@ -8,5 +8,17 @@ navigationData.set(ENavDataTitles.LOGIN_PAGE, {
 });
 navigationData.set(ENavDataTitles.DASHBOARD_PAGE, {
   linkName: "Dashboard",
-  url: "/dashboard",
+  url: "/",
+});
+navigationData.set(ENavDataTitles.USERS_PAGE, {
+  linkName: "Users",
+  url: "/users",
+});
+navigationData.set(ENavDataTitles.PROFILE_PAGE, {
+  linkName: "Profile",
+  url: "/profile",
+});
+navigationData.set(ENavDataTitles.APPOINTMENTS_PAGE, {
+  linkName: "Appointments",
+  url: "/appointments",
 });
