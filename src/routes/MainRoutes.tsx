@@ -8,7 +8,8 @@ import Users from "../pages/users";
 import Profile from "../pages/profile";
 import Patients from "../pages/patients";
 
-const MainRoutes = () => {
+const MainRoutes  = () => {
+
   return (
     <>
       <Routes>
@@ -16,26 +17,30 @@ const MainRoutes = () => {
           path={navigationData.get(ENavDataTitles.LOGIN_PAGE)?.url}
           element={<Login />}
         />
-        <Route
-          path={navigationData.get(ENavDataTitles.DASHBOARD_PAGE)?.url}
-          element={<Dashboard />}
-        />
-        <Route
-          path={navigationData.get(ENavDataTitles.APPOINTMENTS_PAGE)?.url}
-          element={<Appointments />}
-        />
-        <Route
-          path={navigationData.get(ENavDataTitles.USERS_PAGE)?.url}
-          element={<Users />}
-        />
-        <Route
-          path={navigationData.get(ENavDataTitles.PROFILE_PAGE)?.url}
-          element={<Profile />}
-        />
-          <Route
-          path={navigationData.get(ENavDataTitles.PATIENTS_PAGE)?.url}
-          element={<Patients />}
-        />
+      
+      
+            {" "}
+            <Route
+              path={navigationData.get(ENavDataTitles.DASHBOARD_PAGE)?.url}
+              element={<Dashboard />}
+            />
+            <Route
+              path={navigationData.get(ENavDataTitles.APPOINTMENTS_PAGE)?.url}
+              element={<Appointments />}
+            />
+            <Route
+              path={navigationData.get(ENavDataTitles.USERS_PAGE)?.url}
+              element={<Users />}
+            />
+            <Route
+              path={navigationData.get(ENavDataTitles.PROFILE_PAGE)?.url}
+              element={<Profile />}
+            />
+            <Route
+              path={navigationData.get(ENavDataTitles.PATIENTS_PAGE)?.url}
+              element={<Patients />}
+            />
+         
       </Routes>
     </>
   );

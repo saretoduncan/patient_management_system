@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router";
 import { IconType } from "react-icons/lib";
 import { useDispatch } from "react-redux";
-import { closeSideNav } from "../../state/navSlice";
+import { closeSideNav, setCurrentPage } from "../../state/navSlice";
+import { useEffect } from "react";
 
 type TLinkProps = {
   toUrl: string;
@@ -21,14 +22,17 @@ const LinkComponent: React.FC<TLinkProps> = ({
   const handleCloseSideNav = () => {
     navDispatch(closeSideNav());
   };
+  useEffect(() => {
+    if (toUrl === location) {
+      navDispatch(setCurrentPage(linkName));
+    }
+  }, [location]);
   return (
     <>
       <Link
         to={toUrl}
         className={`flex space-x-4 lg:space-x-2  font-bold ${
-          toUrl === location
-            ? "bg-blue-400  text-gray-200 "
-            : " text-gray-700"
+          toUrl === location ? "bg-blue-400  text-gray-200 " : " text-gray-700"
         }  rounded p-2  transform  ease-in-out duration-500  ${classes}`}
         onClick={handleCloseSideNav}
       >

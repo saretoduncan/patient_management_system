@@ -35,15 +35,16 @@ type TAccessLevel = {
   access_level: string;
 };
 
-export type TLoginResponse = TUser&{
-  
+export type TRefreshTokenResp = {
   accessToken: string;
 };
-export type TUser ={
+export type TLoginResponse = TUser & TRefreshTokenResp;
+
+export type TUser = {
   id: string;
   username: string;
   createdAt: string;
   updateAt: string;
   profile: TProfile;
   access_levels: TAccessLevel[];
-}
+};

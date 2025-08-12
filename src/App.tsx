@@ -9,12 +9,14 @@ import { RootState } from "./state/store";
 import LogoComponent from "./components/navigation/LogoComponent";
 function App() {
   const location = useLocation();
-  const hideNavRoutes = [
-    navigationData.get(ENavDataTitles.LOGIN_PAGE)?.linkName,
-  ];
+  const hideNavRoutes = [navigationData.get(ENavDataTitles.LOGIN_PAGE)?.url];
   const isSideNavOpen = useSelector(
     (state: RootState) => state.navigationBarReducer.isOpen
   );
+  const currentPage = useSelector(
+    (state: RootState) => state.navigationBarReducer.currentPage
+  );
+
   return (
     <>
       <div className="min-h-screen  flex flex-col justify-between  text-gray-900 font-serif relative ">
@@ -42,18 +44,39 @@ function App() {
           </header>
 
           <main>
-            <div className="lg:grid lg:grid-cols-12 relative ">
-              <aside className=" hidden lg:block lg:col-span-3 xl:col-span-2 relative  ">
-                <div className=" lg:sticky h-screen bg-gray-200 left-0 right-0 top-0 bottom-0 overflow-auto  p-4 space-y-6 ">
-                  <section className="px-2">
-                    <LogoComponent />
-                  </section>
-                  <section>
-                    <SideNavBar />
-                  </section>
-                </div>
-              </aside>
-              <div className="h-[10000px]">
+            <div
+              className={`${
+                !hideNavRoutes.includes(location.pathname)
+                  ? "lg:grid lg:grid-cols-12"
+                  : ""
+              } relative `}
+            >
+              {!hideNavRoutes.includes(location.pathname) ? (
+                <aside className=" hidden lg:block lg:col-span-3 xl:col-span-2 relative  ">
+                  <div className=" lg:sticky lg:h-screen bg-gray-200 left-0 right-0 top-0 bottom-0 overflow-auto  p-4 space-y-6 ">
+                    <section className="px-2">
+                      <LogoComponent />
+                    </section>
+                    <section>
+                      <SideNavBar />
+                    </section>
+                  </div>
+                </aside>
+              ) : (
+                ""
+              )}
+
+              <div className=" lg:col-span-9 xl:col-span-10">
+                {!hideNavRoutes.includes(location.pathname) ? (
+                  <div className="shadow p-4">
+                    <p className="font-bold text-2xl text-blue-400">
+                      {currentPage}
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+
                 <MainRoutes />
               </div>
             </div>

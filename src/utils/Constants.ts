@@ -1,1 +1,1 @@
-export const BASE_API = "https://coral-happy-painfully.ngrok-free.app";
+export const BASE_URL = "https://coral-happy-painfully.ngrok-free.app";

@@ -1,10 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TNavState = {
   isOpen: boolean;
+  currentPage: string;
 };
 const initialState: TNavState = {
   isOpen: false,
+  currentPage: "",
 };
 
 const NavStateSlice = createSlice({
@@ -17,8 +19,11 @@ const NavStateSlice = createSlice({
     closeSideNav: (state) => {
       state.isOpen = false;
     },
+    setCurrentPage: (state, action: PayloadAction<string>) => {
+      state.currentPage = action.payload;
+    },
   },
 });
-export const { switchSideNav, closeSideNav } = NavStateSlice.actions;
+export const { switchSideNav, closeSideNav, setCurrentPage } = NavStateSlice.actions;
 
 export default NavStateSlice.reducer;
